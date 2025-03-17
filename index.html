@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Discussion Moderne</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        #messages {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            background: #fafafa;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #e3f2fd;
+            border-radius: 5px;
+            border: 1px solid #bbdefb;
+            word-wrap: break-word;
+        }
+
+        .message:last-child {
+            margin-bottom: 0;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        /* Désactiver le zoom sur mobile */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 20px;
+            }
+            input[type="text"] {
+                font-size: 14px;
+            }
+            button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Discussion en Direct</h1>
+        <div id="messages">
+            <!-- Les messages seront chargés ici -->
+            <div class="message">Exemple de message 1</div>
+            <div class="message">Exemple de message 2</div>
+        </div>
+        <form id="messageForm">
+            <input type="text" id="messageInput" placeholder="Entrez votre message" required>
+            <button type="submit">Envoyer</button>
+        </form>
+    </div>
+
+    <script>
+        // Charger les messages depuis le fichier JSON (exemple statique)
+        async function loadMessages() {
+            const response = await fetch('/messages.json');
+            const messages = await response.json();
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = messages.map(msg => `
+                <div class="message">${msg}</div>
+            `).join('');
+        }
+
+        // Envoyer un message (exemple statique)
+        document.getElementById('messageForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = document.getElementById('messageInput').value;
+            // Ici, tu pourrais envoyer le message à une fonction serverless ou une API
+            document.getElementById('messageInput').value = '';
+            loadMessages();
+        });
+
+        // Charger les messages au démarrage
+        loadMessages();
+    </script>
+</body>
+</html>
